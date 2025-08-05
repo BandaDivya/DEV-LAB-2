@@ -1,0 +1,50 @@
+# Importing RegexpTokenizer from NLTK (Natural Language Toolkit)
+# NLTK is a Python library for working with human language data (text processing)
+from nltk.tokenize import RegexpTokenizer
+
+# Importing FreqDist (Frequency Distribution) from NLTK
+# FreqDist is used to count the frequency of each token (word)
+from nltk.probability import FreqDist
+
+# Importing pyplot module from matplotlib library and aliasing it as plt
+# Used for plotting graphs and visualizations
+import matplotlib.pyplot as plt
+
+# Importing extract_text function from pdfminer library
+# This is used to extract raw text from PDF files
+from pdfminer.high_level import extract_text
+
+# --- Extracting Text from PDF ---
+
+# Calling extract_text() to extract text from the given PDF file path
+# r before string makes it a raw string (treats backslashes as literal)
+text = extract_text(r"C:\Users\91984\Downloads\CSE_R22 syllabus book.pdf")
+
+# --- Tokenizing the Text ---
+
+# Creating an instance of RegexpTokenizer
+# '\w+' is a regular expression that matches sequences of alphanumeric characters (words)
+# It will split the text into individual words (tokens) by removing punctuation, spaces, etc.
+tokenizer = RegexpTokenizer(r'\w+')
+
+# Using tokenizer to split the extracted text into a list of tokens (words)
+# Example: "Hello World!" -> ['Hello', 'World']
+tokens = tokenizer.tokenize(text)
+
+# --- Frequency Distribution of Tokens ---
+
+# Creating a frequency distribution object from NLTK
+# It will count how many times each token (word) appears in the text
+freqdist = FreqDist(tokens)
+
+# --- Plotting the Frequency Distribution ---
+
+# Creating a new figure with size 12 inches wide and 6 inches tall
+plt.figure(figsize=(12,6))
+
+# Plotting the top 30 most frequent tokens in a bar chart
+# cumulative=False means we are plotting normal frequencies, not cumulative sums
+freqdist.plot(30, cumulative=False)
+
+# Displaying the plot window
+plt.show()
