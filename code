@@ -1,52 +1,78 @@
-# Import RegexpTokenizer from nltk.tokenize module
-# RegexpTokenizer is used to split text into tokens (words) based on a regular expression pattern
+# ----------------------------------------
+# Importing Required Libraries
+# ----------------------------------------
+
+# Importing RegexpTokenizer from nltk.tokenize module
+# NLTK (Natural Language Toolkit) is a Python library used for text processing tasks like tokenization, stemming, tagging, etc.
+# Tokenization is the process of breaking a large text into smaller chunks (usually words or sentences).
+# RegexpTokenizer allows us to specify a Regular Expression (pattern) to define how the text should be split into tokens.
 from nltk.tokenize import RegexpTokenizer
 
-# Import extract_text from pdfminer.high_level module
-# extract_text() is used to extract raw text content from a PDF file
+# Importing extract_text from pdfminer.high_level
+# pdfminer is a Python library for reading PDF files.
+# extract_text() reads the PDF and returns its content as plain text.
 from pdfminer.high_level import extract_text
 
-# Import FreqDist from nltk.probability module
-# FreqDist is used to calculate the frequency distribution of tokens (counts occurrences)
+# Importing FreqDist from nltk.probability module
+# FreqDist (Frequency Distribution) is like a dictionary that counts how many times each word (token) occurs.
 from nltk.probability import FreqDist
 
-# Extract the text from a PDF file
-# r before the string is a raw string literal (to handle backslashes in file path correctly)
+# ----------------------------------------
+# Extract Text from PDF
+# ----------------------------------------
+
+# Extract text from the given PDF file using extract_text()
+# 'r' before the string makes it a raw string (so that backslashes in file paths are treated correctly)
 text = extract_text(r"C:\Users\91984\Downloads\ISR Unit 1.pdf")
 
-# Print the first 50 characters of extracted text to check if extraction worked
+# Print the first 50 characters of the extracted text to verify if PDF reading was successful
 print("Extracted Text Sample:\n", text[:50])
 
-# Create an instance of RegexpTokenizer with the pattern '\w+'
-# \w+ means match sequences of alphanumeric characters (a-z, A-Z, 0-9) and underscore (_)
-# It ignores punctuation marks like .,;:'" etc.
+# ----------------------------------------
+# Tokenization (Breaking Text into Words)
+# ----------------------------------------
+
+# Create an instance of RegexpTokenizer with pattern '\w+'
+# \w matches any alphanumeric character (a-z, A-Z, 0-9) and underscore (_)
+# + means match one or more occurrences of \w (so it captures entire words)
+# This pattern ignores punctuation (like .,!? etc.)
 tokenizer = RegexpTokenizer('\w+')
 
-# Tokenize the extracted text using the tokenizer
-# It returns a list of words (tokens) from the text
+# Tokenize the extracted text
+# tokenizer.tokenize(text) will return a list of words (tokens) without punctuation.
 tokens = tokenizer.tokenize(text)
 
-# Print the total number of tokens extracted
+# Print total number of tokens extracted (length of tokens list)
 print("\nTotal Tokens Extracted:", len(tokens))
 
-# Print the first 20 tokens as a sample to verify tokenization
+# Print the first 20 tokens as a sample to see how tokenization worked
 print("Sample Tokens:", tokens[:20])
 
-# Create a frequency distribution of the tokens
-# freqdist is a dictionary-like object where keys = tokens, values = their frequency counts
+# ----------------------------------------
+# Frequency Distribution of Tokens
+# ----------------------------------------
+
+# Create a Frequency Distribution object from the tokens list
+# freqdist will now count how many times each unique token appears in the text
 freqdist = FreqDist(tokens)
 
-# Print the 10 most common words along with their frequencies
+# Print the 10 most common words and their frequency counts
 print("\nMost Common 10 Words:", freqdist.most_common(10))
 
-# Create a list of unique words (using set(tokens)) where:
-# - word length is greater than 5 characters (len(word) > 5)
-# - frequency of occurrence is greater than 20 (freqdist[word] > 20)
+# ----------------------------------------
+# Filter Long Frequent Words
+# ----------------------------------------
+
+# Create a list of unique tokens (set(tokens)) where:
+# - The token length is greater than 5 characters
+# - The token appears more than 20 times in the text
+# This helps in identifying significant keywords from the document.
 long_frequent_words = [word for word in set(tokens) if len(word) > 5 and freqdist[word] > 20]
 
-# Print all words that satisfy the above condition
+# Print all tokens that match the above condition
 print("\nWords with length > 5 and frequency > 20:")
 print(long_frequent_words)
 
-# Print the total number of words that matched the above criteria
+# Print how many such words were found
 print("\nTotal Number of Long Frequent Words:", len(long_frequent_words))
+
