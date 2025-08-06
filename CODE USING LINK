@@ -1,0 +1,71 @@
+# ----------------------------------------
+# Importing Required Libraries
+# ----------------------------------------
+
+from bs4 import BeautifulSoup
+import requests
+from nltk.tokenize import RegexpTokenizer
+from nltk.probability import FreqDist
+
+# ----------------------------------------
+# Extract Text from Web Page
+# ----------------------------------------
+
+# URL of the Wikipedia page
+url = 'https://en.wikipedia.org/wiki/Child_labour'
+
+# Send a GET request to fetch the raw HTML content
+response = requests.get(url)
+html_content = response.text
+
+# Parse the HTML content using BeautifulSoup
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# Extract text from paragraphs
+text = ' '.join([p.get_text() for p in soup.find_all('p')])
+
+# Print the first 500 characters of the extracted text to verify if extraction was successful
+print("Extracted Text Sample:\n", text[:500])
+
+# ----------------------------------------
+# Tokenization (Breaking Text into Words)
+# ----------------------------------------
+
+# Initialize the tokenizer with a pattern to match words
+tokenizer = RegexpTokenizer(r'\w+')
+
+# Tokenize the extracted text
+tokens = tokenizer.tokenize(text)
+
+# Print total number of tokens extracted (length of tokens list)
+print("\nTotal Tokens Extracted:", len(tokens))
+
+# Print the first 20 tokens as a sample to see how tokenization worked
+print("Sample Tokens:", tokens[:20])
+
+# ----------------------------------------
+# Frequency Distribution of Tokens
+# ----------------------------------------
+
+# Create a Frequency Distribution object from the tokens list
+freqdist = FreqDist(tokens)
+
+# Print the 10 most common words and their frequency counts
+print("\nMost Common 10 Words:", freqdist.most_common(10))
+
+# ----------------------------------------
+# Filter Long Frequent Words
+# ----------------------------------------
+
+# Create a list of unique tokens (set(tokens)) where:
+# - The token length is greater than 5 characters
+# - The token appears more than 20 times in the text
+# This helps in identifying significant keywords from the document.
+long_frequent_words = [word for word in set(tokens) if len(word) > 5 and freqdist[word] > 20]
+
+# Print all tokens that match the above condition
+print("\nWords with length > 5 and frequency > 20:")
+print(long_frequent_words)
+
+# Print how many such words were found
+print("\nTotal Number of Long Frequent Words:", len(long_frequent_words))
