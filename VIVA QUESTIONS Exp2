@@ -1,0 +1,34 @@
+VIVA QUESTIONS
+
+
+1) What are the other libraries available othe than pdfminer for parsing pdf files?
+Other than pdfminer, libraries like PyPDF2, pdfplumber, and fitz (PyMuPDF) are used to extract text, tables, or images from PDFs.
+
+
+
+2) Which data can be parsed from PDF's?
+From PDFs we can parse text data (like paragraphs, tables, labels) and metadata (like author, creation date, page count).
+This data can then be cleaned and used for exploration, visualization, and analysis.
+
+
+
+3) What is pdfminer?
+PDFMiner is a Python library that extracts text, metadata, and layout information from PDF files.
+In a Data Exploration and Visualization lab, it helps convert PDF reports into structured text or tables for further analysis and visualization.
+
+
+
+4) What is a pdf parser?
+A PDF parser is a tool that reads and extracts text, tables, or data from PDF files.
+In a Data Exploration and Visualization lab, it helps convert raw PDF reports into usable data for analysis and plotting.
+
+
+
+5) Why we need to do pdf parsing?
+PDF parsing is needed to extract raw data (like tables, text, numbers) from PDF files into a usable format.
+This helps us clean, analyze, and visualize the data.
+
+
+What is token?
+What is tokenization?
+What is extract text?
